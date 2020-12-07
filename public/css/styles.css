@@ -1,0 +1,9 @@
+.card-img-top {
+  object-fit: contain;
+  border-radius: 5px;
+  transition: transform 450ms;
+}
+
+.card-img-top:hover {
+  transform: scale(1.05);
+}

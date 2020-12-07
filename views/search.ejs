@@ -1,0 +1,24 @@
+<%- include('partials/header') -%>
+
+<div class="container pt-5">
+  <div class="row row-cols-1 row-cols-md-3 p-3">
+    <% for( let i = 0; i < searchRecipesByQuery.results.length; i++ ) { %>
+    <div class="col mb-4">
+      <div>
+        <img
+          src="<%= searchRecipesByQuery.results[i].image %>"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= searchRecipesByQuery.results[i].title %>
+          </h5>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('partials/footer') -%>
