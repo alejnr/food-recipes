@@ -1,5 +1,63 @@
 <%- include('partials/header') -%>
 
-<h1><%= requestRecipeName %></h1>
+<h3 class="px-5 pt-5"><%= getRecipeInformation.title %></h3>
+
+<div class="container text-center">
+  <img class="mt-3 img-thumbnail" src="<%= getRecipeInformation.image %>" />
+  <div class="alert alert-dark mt-5 p-3">
+    <p><%- getRecipeInformation.summary %></p>
+  </div>
+
+  <h5 class="text-left mt-5 pb-2">Ingredients:</h5>
+
+  <div class="row row-cols-3 row-cols-md-6">
+    <% for( let i = 0; i < getRecipeInformation.extendedIngredients.length;
+    i++ ) { %>
+
+    <div class="col">
+      <div class="container">
+        <img
+          src="https://spoonacular.com/cdn/ingredients_100x100/<%= getRecipeInformation.extendedIngredients[i].image %>"
+          class="card-img-top ingre-img"
+          alt="..."
+        />
+        <div class="card-body">
+          <p class="card-title">
+            <%= getRecipeInformation.extendedIngredients[i].name %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <% } %>
+  </div>
+
+  <h5 class="text-left">Preparation:</h5>
+
+
+  <div class="text-left"><%- getRecipeInformation.instructions %></div>
+
+  <h5 class="text-left">Related Recipes:</h5>
+
+  <div class="container pt-5">
+  <div class="row row-cols-1 row-cols-md-3 p-3">
+    <% for( let i = 0; i < getSimilarRecipes.length; i++ ) { %>
+    <div class="col mb-4">
+      <div>
+        <img
+          src="https://spoonacular.com/recipeImages/<%=  getSimilarRecipes[i].id %>-312x231.jpg"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href=/recipes/<%= getSimilarRecipes[i].id %>><%= getSimilarRecipes[i].title %></a>
+          </h5>
+        </div>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
 
 <%- include('partials/footer') -%>

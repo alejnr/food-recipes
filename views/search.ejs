@@ -12,7 +12,7 @@
         />
         <div class="card-body">
           <h5 class="card-title">
-            <%= searchRecipesByQuery.results[i].title %>
+            <a href=/recipes/<%= searchRecipesByQuery.results[i].id %>><%= searchRecipesByQuery.results[i].title %></a>
           </h5>
         </div>
       </div>

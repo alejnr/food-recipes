@@ -18,30 +18,24 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 var query = ''
-const id = '716426'
+var id = ''
 
-const requestFoods = [
-  `https://api.spoonacular.com/food/search?query=${query}&apiKey=${apiKEY}`,
-  `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKEY}`,
-  `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKEY}`,
-  `https://api.spoonacular.com/recipes/${id}/summary?apiKey=${apiKEY}`,
-]
+const kebabCase = _.kebabCase
 
 app.get('/', function (req, res) {
-  //   console.log(requestFoods[2])
+  //   console.log(requestFoods[0])
+
+  const requestFoods = [
+    `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKEY}`,
+  ]
 
   const promises = requestFoods.map((requestFood) => rp(requestFood))
   Promise.all(promises).then((data) => {
-    const searchAllFood = JSON.parse(data[0])
-    const searchRecipes = JSON.parse(data[1])
-    const getRecipeInformation = JSON.parse(data[2])
-    const summarizeRecipe = JSON.parse(data[3])
+    const searchRecipesData = JSON.parse(data[0])
 
     res.render('index', {
-      searchAllFood: searchAllFood,
-      searchRecipes: searchRecipes,
-      getRecipeInformation: getRecipeInformation,
-      summarizeRecipe: summarizeRecipe,
+      searchRecipes: searchRecipesData,
+      kebabCase: kebabCase,
     })
   })
 })
@@ -61,6 +55,32 @@ app.post('/', function (req, res) {
 
     res.render('search', {
       searchRecipesByQuery: searchRecipesByQuery,
+      kebabCase: kebabCase,
+    })
+  })
+})
+
+app.get('/recipes/:foodId', function (req, res) {
+  const requestedFoodId = req.params.foodId
+
+  var id = requestedFoodId
+
+  const requestFoodByIds = [
+    `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKEY}`,
+    `https://api.spoonacular.com/recipes/${id}/similar?apiKey=${apiKEY}`,
+  ]
+
+  const promises = requestFoodByIds.map((requestFoodById) =>
+    rp(requestFoodById)
+  )
+  Promise.all(promises).then((data) => {
+    const getRecipeInformation = JSON.parse(data[0])
+    const getSimilarRecipes = JSON.parse(data[1])
+
+    res.render('recipe', {
+      getRecipeInformation: getRecipeInformation,
+      getSimilarRecipes: getSimilarRecipes,
+      kebabCase: kebabCase,
     })
   })
 })

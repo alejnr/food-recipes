@@ -1,5 +1,6 @@
 <%- include('partials/header') -%>
 
+
 <div class="container pt-5">
   <div class="row row-cols-1 row-cols-md-3 p-3">
     <% for( let i = 0; i < searchRecipes.results.length; i++ ) { %>
@@ -11,7 +12,7 @@
           alt="..."
         />
         <div class="card-body">
-          <h5 class="card-title"><%= searchRecipes.results[i].title %></h5>
+          <h5 class="card-title"><a href=/recipes/<%= searchRecipes.results[i].id %>><%= searchRecipes.results[i].title %></a></h5>
         </div>
       </div>
     </div>
