@@ -17,10 +17,8 @@ app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
 
-var query = ''
-var id = ''
-
-const kebabCase = _.kebabCase
+let query = ''
+let id = ''
 
 app.get('/', function (req, res) {
   //   console.log(requestFoods[0])
@@ -35,7 +33,6 @@ app.get('/', function (req, res) {
 
     res.render('index', {
       searchRecipes: searchRecipesData,
-      kebabCase: kebabCase,
     })
   })
 })
@@ -43,11 +40,13 @@ app.get('/', function (req, res) {
 app.post('/', function (req, res) {
   const querySearch = req.body.searchQuery
 
-  var query = querySearch
+  let query = querySearch
 
   const searchFoods = [
     `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${apiKEY}`,
   ]
+
+  //   console.log(searchFoods[0])
 
   const promises = searchFoods.map((searchFood) => rp(searchFood))
   Promise.all(promises).then((data) => {
@@ -55,7 +54,6 @@ app.post('/', function (req, res) {
 
     res.render('search', {
       searchRecipesByQuery: searchRecipesByQuery,
-      kebabCase: kebabCase,
     })
   })
 })
@@ -63,12 +61,15 @@ app.post('/', function (req, res) {
 app.get('/recipes/:foodId', function (req, res) {
   const requestedFoodId = req.params.foodId
 
-  var id = requestedFoodId
+  let id = requestedFoodId
 
   const requestFoodByIds = [
     `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKEY}`,
     `https://api.spoonacular.com/recipes/${id}/similar?apiKey=${apiKEY}`,
+    `https://api.spoonacular.com/recipes/${id}/equipmentWidget.json?apiKey=${apiKEY}`,
   ]
+
+  //   console.log(requestFoodByIds[0])
 
   const promises = requestFoodByIds.map((requestFoodById) =>
     rp(requestFoodById)
@@ -76,11 +77,12 @@ app.get('/recipes/:foodId', function (req, res) {
   Promise.all(promises).then((data) => {
     const getRecipeInformation = JSON.parse(data[0])
     const getSimilarRecipes = JSON.parse(data[1])
+    const getRecipeEquipmentById = JSON.parse(data[2])
 
     res.render('recipe', {
       getRecipeInformation: getRecipeInformation,
       getSimilarRecipes: getSimilarRecipes,
-      kebabCase: kebabCase,
+      getRecipeEquipmentById: getRecipeEquipmentById,
     })
   })
 })
