@@ -17,36 +17,31 @@ app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
 
-let query = ''
-let id = ''
-
 app.get('/', function (req, res) {
-  //   console.log(requestFoods[0])
 
-  const requestFoods = [
-    `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKEY}`,
+  const getRandomFoods = [
+    `https://api.spoonacular.com/recipes/random?apiKey=${apiKEY}&number=12`,
+    `https://api.spoonacular.com/food/jokes/random?apiKey=${apiKEY}`,
   ]
 
-  const promises = requestFoods.map((requestFood) => rp(requestFood))
+  const promises = getRandomFoods.map((getRandomFood) => rp(getRandomFood))
   Promise.all(promises).then((data) => {
-    const searchRecipesData = JSON.parse(data[0])
+    const getRandomFoodsData = JSON.parse(data[0])
+    const getRandomJokesData = JSON.parse(data[1])
 
     res.render('index', {
-      searchRecipes: searchRecipesData,
+      getRandomRecipes: getRandomFoodsData,
+      getRandomJokes: getRandomJokesData,
     })
   })
 })
 
 app.post('/', function (req, res) {
-  const querySearch = req.body.searchQuery
-
-  let query = querySearch
+  const query = req.body.searchQuery
 
   const searchFoods = [
-    `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${apiKEY}`,
+    `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${apiKEY}&number=18`,
   ]
-
-  //   console.log(searchFoods[0])
 
   const promises = searchFoods.map((searchFood) => rp(searchFood))
   Promise.all(promises).then((data) => {
@@ -59,18 +54,14 @@ app.post('/', function (req, res) {
 })
 
 app.get('/recipes/:foodId', function (req, res) {
-  const requestedFoodId = req.params.foodId
-
-  let id = requestedFoodId
+  const id = req.params.foodId
 
   const requestFoodByIds = [
     `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKEY}`,
-    `https://api.spoonacular.com/recipes/${id}/similar?apiKey=${apiKEY}`,
+    `https://api.spoonacular.com/recipes/${id}/similar?apiKey=${apiKEY}&number=6`,
     `https://api.spoonacular.com/recipes/${id}/equipmentWidget.json?apiKey=${apiKEY}`,
   ]
-
-  //   console.log(requestFoodByIds[0])
-
+  
   const promises = requestFoodByIds.map((requestFoodById) =>
     rp(requestFoodById)
   )

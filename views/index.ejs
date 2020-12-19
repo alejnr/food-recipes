@@ -1,26 +1,37 @@
 <%- include('partials/header') -%>
+<title>Food Recipes</title>
+
+<div class="container pt-5">
+  <h1 class="text-success">Random Food Joke</h1>
+  <blockquote class="blockquote">
+    <p class="mb-0">"<%= getRandomJokes.text %>"</p>
+  </blockquote>
+</div>
 
 <div class="container pt-5">
   <div class="row row-cols-1 row-cols-md-3 p-3">
-    <% for( let i = 0; i < searchRecipes.results.length; i++ ) { %>
-    <div class="col mb-4">
-      <div>
-        <a href="/recipes/<%= searchRecipes.results[i].id %>">
-          <img
-            src="https://spoonacular.com/recipeImages/<%=  searchRecipes.results[i].id %>-312x231.<%= searchRecipes.results[i].imageType %>"
-            class="card-img-top"
-            alt="..."
-          />
-        </a>
-        <div class="card-body">
-          <h5 class="card-title">
-            <a href="/recipes/<%= searchRecipes.results[i].id %>"
-              ><%= searchRecipes.results[i].title %>
+    <% for( let i = 0; i < getRandomRecipes.recipes.length; i++ ) { %>
+      <%if(getRandomRecipes.recipes[i].imageType) { %>
+
+        <div class="col mb-4">
+          <div>
+            <a href="/recipes/<%= getRandomRecipes.recipes[i].id %>">
+              <img
+                src="https://spoonacular.com/recipeImages/<%=  getRandomRecipes.recipes[i].id %>-312x231.<%= getRandomRecipes.recipes[i].imageType %>"
+                class="card-img-top rounded"
+                alt="..."
+              />
             </a>
-          </h5>
+            <div class="card-body">
+              <h5 class="card-title">
+                <a class="text-success" href="/recipes/<%= getRandomRecipes.recipes[i].id %>"
+                  ><%= getRandomRecipes.recipes[i].title %>
+                </a>
+              </h5>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+        <%  } %>
     <% } %>
   </div>
 </div>

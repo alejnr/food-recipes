@@ -1,4 +1,5 @@
 <%- include('partials/header') -%>
+<title>Food Recipes</title>
 
 <div class="container pt-5">
   <div class="row row-cols-1 row-cols-md-3 p-3">
@@ -8,13 +9,13 @@
         <a href="/recipes/<%= searchRecipesByQuery.results[i].id %>">
           <img
             src="https://spoonacular.com/recipeImages/<%=  searchRecipesByQuery.results[i].id %>-312x231.<%= searchRecipesByQuery.results[i].imageType %>"
-            class="card-img-top"
+            class="card-img-top rounded"
             alt="..."
           />
         </a>
         <div class="card-body">
           <h5 class="card-title">
-            <a href="/recipes/<%= searchRecipesByQuery.results[i].id %>"
+            <a class="text-success" href="/recipes/<%= searchRecipesByQuery.results[i].id %>"
               ><%= searchRecipesByQuery.results[i].title %>
             </a>
           </h5>

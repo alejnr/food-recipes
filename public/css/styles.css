@@ -1,6 +1,5 @@
 .card-img-top {
   object-fit: contain;
-  border-radius: 5px;
   transition: transform 450ms;
 }
 
