@@ -11,28 +11,31 @@
 <div class="container pt-5">
   <div class="row row-cols-1 row-cols-md-3 p-3">
     <% for( let i = 0; i < getRandomRecipes.recipes.length; i++ ) { %>
-      <%if(getRandomRecipes.recipes[i].imageType) { %>
+    <%if(getRandomRecipes.recipes[i].imageType) { %>
 
-        <div class="col mb-4">
-          <div>
-            <a href="/recipes/<%= getRandomRecipes.recipes[i].id %>">
-              <img
-                src="https://spoonacular.com/recipeImages/<%=  getRandomRecipes.recipes[i].id %>-312x231.<%= getRandomRecipes.recipes[i].imageType %>"
-                class="card-img-top rounded"
-                alt="..."
-              />
+    <div class="col mb-4">
+      <div>
+        <a
+          href="/recipes/<%= kebabCase(getRandomRecipes.recipes[i].title) %>=<%= getRandomRecipes.recipes[i].id %>"
+        >
+          <img
+            src="https://spoonacular.com/recipeImages/<%=  getRandomRecipes.recipes[i].id %>-312x231.<%= getRandomRecipes.recipes[i].imageType %>"
+            class="card-img-top rounded"
+            alt="..."
+          />
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">
+            <a
+              class="text-success"
+              href="/recipes/<%= kebabCase(getRandomRecipes.recipes[i].title) %>=<%= getRandomRecipes.recipes[i].id %>"
+              ><%= getRandomRecipes.recipes[i].title %>
             </a>
-            <div class="card-body">
-              <h5 class="card-title">
-                <a class="text-success" href="/recipes/<%= getRandomRecipes.recipes[i].id %>"
-                  ><%= getRandomRecipes.recipes[i].title %>
-                </a>
-              </h5>
-            </div>
-          </div>
+          </h5>
         </div>
-        <%  } %>
-    <% } %>
+      </div>
+    </div>
+    <% } %> <% } %>
   </div>
 </div>
 

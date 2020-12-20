@@ -9,6 +9,9 @@ dotenv.config()
 
 const app = express()
 
+const kebabCase = _.kebabCase
+const capitalize = _.capitalize
+
 app.use(bodyParser.urlencoded({ extended: true }))
 
 const apiKEY = process.env.API_KEY
@@ -18,7 +21,6 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 app.get('/', function (req, res) {
-
   const getRandomFoods = [
     `https://api.spoonacular.com/recipes/random?apiKey=${apiKEY}&number=12`,
     `https://api.spoonacular.com/food/jokes/random?apiKey=${apiKEY}`,
@@ -32,6 +34,7 @@ app.get('/', function (req, res) {
     res.render('index', {
       getRandomRecipes: getRandomFoodsData,
       getRandomJokes: getRandomJokesData,
+      kebabCase: kebabCase,
     })
   })
 })
@@ -49,11 +52,12 @@ app.post('/', function (req, res) {
 
     res.render('search', {
       searchRecipesByQuery: searchRecipesByQuery,
+      kebabCase: kebabCase,
     })
   })
 })
 
-app.get('/recipes/:foodId', function (req, res) {
+app.get('/recipes/:recipeName=:foodId', function (req, res) {
   const id = req.params.foodId
 
   const requestFoodByIds = [
@@ -62,7 +66,7 @@ app.get('/recipes/:foodId', function (req, res) {
     `https://api.spoonacular.com/recipes/${id}/equipmentWidget.json?apiKey=${apiKEY}`,
     `https://api.spoonacular.com/recipes/${id}/analyzedInstructions?apiKey=${apiKEY}`,
   ]
-  
+
   const promises = requestFoodByIds.map((requestFoodById) =>
     rp(requestFoodById)
   )
@@ -77,6 +81,8 @@ app.get('/recipes/:foodId', function (req, res) {
       getSimilarRecipes: getSimilarRecipes,
       getRecipeEquipmentById: getRecipeEquipmentById,
       getAnalyzedRecipeInstructions: getAnalyzedRecipeInstructions,
+      kebabCase: kebabCase,
+      capitalize: capitalize,
     })
   })
 })
