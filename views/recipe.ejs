@@ -35,7 +35,7 @@
     <div class="col">
       <div class="container">
         <img
-          src="https://spoonacular.com/cdn/ingredients_100x100/<%= getRecipeInformation.extendedIngredients[i].image %>"
+          src="https://spoonacular.com/cdn/ingredients_100x100/<% if(getRecipeInformation.extendedIngredients[i].image) { %><%= getRecipeInformation.extendedIngredients[i].image %><%} else {%>no.jpg<% } %>"
           class="card-img-top ingre-img"
           alt="..."
         />
@@ -58,7 +58,7 @@
     <div class="col">
       <div class="container">
         <img
-          src="https://spoonacular.com/cdn/equipment_100x100/<%= getRecipeEquipmentById.equipment[i].image %>"
+          src="https://spoonacular.com/cdn/equipment_100x100/<% if(getRecipeEquipmentById.equipment[i].image) { %><%= getRecipeEquipmentById.equipment[i].image %><%} else {%>no.jpg<% } %>"
           class="card-img-top ingre-img"
           alt="..."
         />
@@ -73,10 +73,26 @@
     <% } %>
   </div>
 
-  <h5 class="text-left mt-5"><% if(getRecipeInformation.instructions) { %>Preparation:<% } %></h5>
+  <h5 class="text-left mt-5"><% if(getRecipeInformation.instructions) { %>Instructions:<% } %></h5>
 
-  <div class="text-left"><p><%- getRecipeInformation.instructions %></p></div>
 
+  <% if(getRecipeInformation.instructions) { %>
+    <div class="text-left">
+      <ul class="list-group list-group-flush pt-3">
+        <h4><%- getAnalyzedRecipeInstructions[0].name %></h4>
+      <% for( let i = 0; i < getAnalyzedRecipeInstructions[0].steps.length; i++ ) { %>
+        <li class="list-group-item">
+          <span class="badge badge-info badge-pill p-2 mr-2"><%- getAnalyzedRecipeInstructions[0].steps[i].number %></span>
+            <%- getAnalyzedRecipeInstructions[0].steps[i].step %>
+        </li>   
+    
+      <% } %>
+    </ul>
+      </div>
+  <% } %>
+  
+ 
+ 
   <h5 class="text-left mt-5">Related Recipes:</h5>
 
   <div class="container">

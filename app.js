@@ -60,6 +60,7 @@ app.get('/recipes/:foodId', function (req, res) {
     `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKEY}`,
     `https://api.spoonacular.com/recipes/${id}/similar?apiKey=${apiKEY}&number=6`,
     `https://api.spoonacular.com/recipes/${id}/equipmentWidget.json?apiKey=${apiKEY}`,
+    `https://api.spoonacular.com/recipes/${id}/analyzedInstructions?apiKey=${apiKEY}`,
   ]
   
   const promises = requestFoodByIds.map((requestFoodById) =>
@@ -69,11 +70,13 @@ app.get('/recipes/:foodId', function (req, res) {
     const getRecipeInformation = JSON.parse(data[0])
     const getSimilarRecipes = JSON.parse(data[1])
     const getRecipeEquipmentById = JSON.parse(data[2])
+    const getAnalyzedRecipeInstructions = JSON.parse(data[3])
 
     res.render('recipe', {
       getRecipeInformation: getRecipeInformation,
       getSimilarRecipes: getSimilarRecipes,
       getRecipeEquipmentById: getRecipeEquipmentById,
+      getAnalyzedRecipeInstructions: getAnalyzedRecipeInstructions,
     })
   })
 })
