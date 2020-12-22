@@ -11,6 +11,9 @@ const app = express()
 
 const kebabCase = _.kebabCase
 const capitalize = _.capitalize
+const lowerCase = _.lowerCase
+
+const queryReq = ''
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -40,7 +43,15 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', function (req, res) {
-  const query = req.body.searchQuery
+  const searchQuery = kebabCase(req.body.searchQuery)
+
+  res.redirect(`/search/${searchQuery}`)
+})
+
+app.get('/search/:searchQuery', function (req, res) {
+  const query = req.params.searchQuery
+
+  let queryReq = capitalize(lowerCase(query))
 
   const searchFoods = [
     `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${apiKEY}&number=18`,
@@ -53,6 +64,7 @@ app.post('/', function (req, res) {
     res.render('search', {
       searchRecipesByQuery: searchRecipesByQuery,
       kebabCase: kebabCase,
+      queryReq: queryReq,
     })
   })
 })
