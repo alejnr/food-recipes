@@ -9,12 +9,6 @@ dotenv.config()
 
 const app = express()
 
-const kebabCase = _.kebabCase
-const capitalize = _.capitalize
-const lowerCase = _.lowerCase
-
-const queryReq = ''
-
 app.use(bodyParser.urlencoded({ extended: true }))
 
 const apiKEY = process.env.API_KEY
@@ -37,13 +31,13 @@ app.get('/', function (req, res) {
     res.render('index', {
       getRandomRecipes: getRandomFoodsData,
       getRandomJokes: getRandomJokesData,
-      kebabCase: kebabCase,
+      kebabCase: _.kebabCase,
     })
   })
 })
 
 app.post('/', function (req, res) {
-  const searchQuery = kebabCase(req.body.searchQuery)
+  const searchQuery = _.kebabCase(req.body.searchQuery)
 
   res.redirect(`/search/${searchQuery}`)
 })
@@ -51,11 +45,11 @@ app.post('/', function (req, res) {
 app.get('/search/:searchQuery', function (req, res) {
   const query = req.params.searchQuery
 
-  let queryReq = capitalize(lowerCase(query))
-
   const searchFoods = [
-    `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${apiKEY}&number=18`,
+    `https://api.spoonacular.com/food/search?query=${query}&apiKey=${apiKEY}&number=18`,
   ]
+
+  // console.log(searchFoods[0]);
 
   const promises = searchFoods.map((searchFood) => rp(searchFood))
   Promise.all(promises).then((data) => {
@@ -63,8 +57,9 @@ app.get('/search/:searchQuery', function (req, res) {
 
     res.render('search', {
       searchRecipesByQuery: searchRecipesByQuery,
-      kebabCase: kebabCase,
-      queryReq: queryReq,
+      kebabCase: _.kebabCase,
+      capitalize: _.capitalize,
+      lowerCase: _.lowerCase,
     })
   })
 })
@@ -93,8 +88,8 @@ app.get('/recipes/:recipeName=:foodId', function (req, res) {
       getSimilarRecipes: getSimilarRecipes,
       getRecipeEquipmentById: getRecipeEquipmentById,
       getAnalyzedRecipeInstructions: getAnalyzedRecipeInstructions,
-      kebabCase: kebabCase,
-      capitalize: capitalize,
+      kebabCase: _.kebabCase,
+      capitalize: _.capitalize,
     })
   })
 })

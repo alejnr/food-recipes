@@ -1,20 +1,32 @@
 <%- include('partials/header') -%>
-<title><%= queryReq %> | Food Recipes</title>
+<title>
+ <%  if (searchRecipesByQuery.searchResults[0].totalResults > 0) { %>
+    <%= capitalize(lowerCase(searchRecipesByQuery.query)) %> | Food Recipes
+  <% } else { %>
+    Food Recipes
+ <% } %>
+</title>
 
 <div class="container">
-  <h3 class="pt-5"><%= queryReq %></h3>
+  <h3 class="pt-5">
+    <% if (searchRecipesByQuery.searchResults[0].totalResults > 0) { %>
+      <%= searchRecipesByQuery.searchResults[0].totalResults %> results for "<%= capitalize(lowerCase(searchRecipesByQuery.query)) %>"
+      <% } else { %>
+      Sorry, we couldn't find any results for "<%= capitalize(lowerCase(searchRecipesByQuery.query)) %>"
+      <% } %>
+  </h3>
 </div>
 
 <div class="container mt-3">
   <div class="row row-cols-1 row-cols-md-3 p-3">
-    <% for( let i = 0; i < searchRecipesByQuery.results.length; i++ ) { %>
+    <% for( let i = 0; i < searchRecipesByQuery.searchResults[0].results.length; i++ ) { %>
     <div class="col mb-4">
       <div>
         <a
-          href="/recipes/<%= kebabCase(searchRecipesByQuery.results[i].title) %>=<%= searchRecipesByQuery.results[i].id %>"
+          href="/recipes/<%= kebabCase(searchRecipesByQuery.searchResults[0].results[i].name) %>=<%= searchRecipesByQuery.searchResults[0].results[i].id %>"
         >
           <img
-            src="https://spoonacular.com/recipeImages/<%=  searchRecipesByQuery.results[i].id %>-312x231.<%= searchRecipesByQuery.results[i].imageType %>"
+            src="<%=  searchRecipesByQuery.searchResults[0].results[i].image %>"
             class="card-img-top rounded"
             alt="..."
           />
@@ -23,8 +35,8 @@
           <h5 class="card-title">
             <a
               class="text-success"
-              href="/recipes/<%= kebabCase(searchRecipesByQuery.results[i].title) %>=<%= searchRecipesByQuery.results[i].id %>"
-              ><%= searchRecipesByQuery.results[i].title %>
+              href="/recipes/<%= kebabCase(searchRecipesByQuery.searchResults[0].results[i].name) %>=<%= searchRecipesByQuery.searchResults[0].results[i].id %>"
+              ><%= searchRecipesByQuery.searchResults[0].results[i].name %>
             </a>
           </h5>
         </div>
