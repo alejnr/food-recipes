@@ -9,8 +9,10 @@
 
 <div class="container">
   <h3 class="pt-5">
-    <% if (searchRecipesByQuery.searchResults[0].totalResults > 0) { %>
-      <%= searchRecipesByQuery.searchResults[0].totalResults %> results for "<%= capitalize(lowerCase(searchRecipesByQuery.query)) %>"
+    <% if (searchRecipesByQuery.searchResults[0].totalResults > 1) { %>
+      Search results for "<%= capitalize(lowerCase(searchRecipesByQuery.query)) %>"
+      <% } else if (searchRecipesByQuery.searchResults[0].totalResults  === 1) { %>
+        <%= searchRecipesByQuery.searchResults[0].totalResults %> result for "<%= capitalize(lowerCase(searchRecipesByQuery.query)) %>"
       <% } else { %>
       Sorry, we couldn't find any results for "<%= capitalize(lowerCase(searchRecipesByQuery.query)) %>"
       <% } %>
