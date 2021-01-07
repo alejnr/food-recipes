@@ -3,7 +3,7 @@
 
 This is a project to practise my knowledge about using API's
 
-![screenshot](https://alexmenlah.ga/assets/images/projects/foodRecipes.png)
+![screenshot](https://alexmenlah.com/assets/images/projects/foodRecipes.png)
 
 ## Endpoint
 
