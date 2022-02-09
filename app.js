@@ -33,7 +33,11 @@ app.get('/', function (req, res) {
       getRandomJokes: getRandomJokesData,
       kebabCase: _.kebabCase,
     })
-  })
+  }).catch(function(err) {
+    res.render("error", {
+      errMsg: err,
+    })
+  });
 })
 
 app.post('/', function (req, res) {
@@ -61,7 +65,11 @@ app.get('/search/:searchQuery', function (req, res) {
       capitalize: _.capitalize,
       lowerCase: _.lowerCase,
     })
-  })
+  }).catch(function(err) {
+    res.render("error", {
+      errMsg: err,
+    })
+  });
 })
 
 app.get('/recipes/:recipeName=:foodId', function (req, res) {
@@ -91,7 +99,11 @@ app.get('/recipes/:recipeName=:foodId', function (req, res) {
       kebabCase: _.kebabCase,
       capitalize: _.capitalize,
     })
-  })
+  }).catch(function(err) {
+    res.render("error", {
+      errMsg: err,
+    })
+  });
 })
 
 app.use(function (req, res) {
